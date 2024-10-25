@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "escuela":"Jose Marti",
+    "promedio":92
+  },
+  {
+    "id": 2,
+    "escuela":"Juan Oscar Alvarado",
+    "promedio":80.5
+  },
+  {
+    "id": 3,
+    "escuela":"Capitan Roberto Rodriguez",
+    "promedio":98.6
+  },
+  {
+    "id": 4,
+    "escuela":"Osvaldo Socarras",
+    "promedio":95
+  },
+  {
+    "id": 5,
+    "escuela":"Oreste de la Torre",
+    "promedio":70
+  },
+  {
+    "id": 6,
+    "escuela":"El Vaquerito",
+    "promedio":86.5
+  }
+]

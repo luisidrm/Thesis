@@ -1,0 +1,35 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+.navbar{
+  background-color: #000000aa;
+  color: #e0e0e0;
+  width: 95%;
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 3%;
+  position:fixed;
+  z-index: 500;
+}
+.derecha{
+  height: auto;
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 35px;
+  align-items: center;
+}
+.leaflet-top{
+  margin-top: 77px;
+}
+.leaflet-control-zoom .leaflet-bar .leaflet-control{
+  margin: 0;
+}
+.leaflet-control-layers .leaflet-control{
+  margin-left: 0;
+}
+

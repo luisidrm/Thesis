@@ -1,0 +1,83 @@
+.reportes{
+  height: 50%;
+  width: 100%;
+  position: absolute;
+  background-color: #f0eeee;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  /* scrollbar-width: none; */
+  z-index: 400;
+  top: 50%;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  flex-wrap: wrap;
+  pointer-events: all;
+  scroll-behavior: smooth;
+  user-select: none;
+}
+/* .reportes::before,
+.reportes::after {
+  transition: transform 2s ease-in-out;
+}
+
+.reportes::before{
+  transform: translateY(100%);
+}
+.reportes::after{
+  transform: translateY(-100%);
+} */
+
+.oculto{
+  display: none;
+}
+.scroll{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: fit-content;
+  margin-bottom: 20px;
+  position: static;
+}
+.data-completa{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.button-scroll{
+  margin-top: 10px;
+  width: 50%;
+  border: 0;
+  cursor: pointer;
+}
+.data{
+  margin-left: 2%;
+  margin-top: 10px;
+  width: 25%;
+}
+.graficos{
+  width: 35%;
+  height: 200px;
+  min-width: 200px;
+}
+.graficos2{
+  width: 35%;
+  height: 200px;
+  min-width: 200px;
+}
+a{
+  text-decoration: none;
+}
+
+@media (width<=700px){
+  .data{
+    font-size: smaller;
+  }
+  .graficos{
+    width: 70%;
+  }
+  .graficos2{
+    width: 70%;
+  }
+}
