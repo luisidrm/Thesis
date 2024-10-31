@@ -45,6 +45,30 @@ export default function Reportes(props) {
             bbox: `${lng},${lat},${lng},${lat},EPSG:4326`,
           },
         }
+            // "http://localhost:8080/geoserver/LuisDaniel/wms",
+            // {
+            //   params:{
+            //     SERVICE: 'WMS',
+            //     VERSION: '1.1.1',
+            //     REQUEST: 'GetFeatureInfo',
+            //     FORMAT: 'image/jpeg',
+            //     TRANSPARENT: true,
+            //     QUERY_LAYERS: 'LuisDaniel:municipios',
+            //     STYLES: '',
+            //     LAYERS: 'LuisDaniel:municipios',
+            //     EXCEPTIONS: 'application/vnd.ogc.se_inimage',
+            //     INFO_FORMAT: 'application/json',
+            //     FEATURE_COUNT: 50,
+            //     X: 50,
+            //     Y: 50,
+            //     SRS: 'EPSG:4326',
+            //     WIDTH: 101,
+            //     HEIGHT: 101,
+            //     BBOX: `${lng},${lat},${lng+0.1371170258},${lat+0.1386489308},EPSG:4326`,
+            //   }
+
+            // }
+            
       );
       const responseProv = await axios.get(
         "http://localhost:8080/geoserver/LuisDaniel/wfs",
@@ -59,6 +83,28 @@ export default function Reportes(props) {
             bbox: `${lng},${lat},${lng},${lat},EPSG:4326`,
           },
         }
+        // "http://localhost:8080/geoserver/LuisDaniel/wms",
+        //     {
+        //       params:{
+        //         SERVICE: 'WMS',
+        //         VERSION: '1.1.1',
+        //         REQUEST: 'GetFeatureInfo',
+        //         FORMAT: 'image/jpeg',
+        //         TRANSPARENT: true,
+        //         QUERY_LAYERS: 'LuisDaniel:provincias',
+        //         STYLES: '',
+        //         LAYERS: 'LuisDaniel:provincias',
+        //         EXCEPTIONS: 'application/vnd.ogc.se_inimage',
+        //         INFO_FORMAT: 'application/json',
+        //         FEATURE_COUNT: 50,
+        //         X: 50,
+        //         Y: 50,
+        //         SRS: 'EPSG:4326',
+        //         WIDTH: 101,
+        //         HEIGHT: 101,
+        //         BBOX: `${lng},${lat},${lng+0.1371170258},${lat+0.1386489308},EPSG:4326`,
+        //       }
+        //     }
       );
       const features = response.data.features;
       const featuresProv = responseProv.data.features;

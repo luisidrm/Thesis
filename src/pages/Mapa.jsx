@@ -1,13 +1,25 @@
 import NavBar from "../componentes/NavBar";
+import '../style/mapa.css'
 import { MapContainer, TileLayer, LayersControl, WMSTileLayer, ZoomControl } from "react-leaflet";
 import "leaflet/dist/leaflet";
 import Buscador from "../componentes/Buscador";
-import { useState } from "react";
+import { createContext,  useState } from "react";
 import Reportes from "../componentes/Reportes";
 import LocationMarker from "../componentes/LocationMarker";
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import Specs from "../componentes/Specs";
+
+export const ReportesContext = createContext(null)
 
 export default function Mapa() {
+  const [specs, setSpecs] = useState(false)
+  const [select, setSelect] = useState('')
+  const [buscador, setBuscador] = useState("");
   const { BaseLayer, Overlay } = LayersControl;
+
+  const handleSpecs = () =>{
+    setSpecs(!specs)
+  }
   const cubaBounds = [
     [18.0, -87.0], // Suroeste de Cuba
     [25.0, -74.0]  // Noreste de Cuba
@@ -31,15 +43,20 @@ export default function Mapa() {
         minZoom={6}
         zoomControl={false}
         attributionControl = {false}
+        scrollWheelZoom = {true}
+
         >
         <LocationMarker/>
-        <NavBar/>
-        <Buscador/>
-        <Reportes
-          mostrar = {mostrar}
-          handleMostrar = {handleMostrar}
-          setMostrar = {setMostrar}
+        <NavBar handleMostrar={handleMostrar} />
+        <Buscador
+          buscador = {buscador}
+          setBuscador = {setBuscador}
         />
+          <Reportes
+            mostrar = {mostrar}
+            handleMostrar = {handleMostrar}
+            setMostrar = {setMostrar}
+          />
         <ZoomControl position="topright"/>
         <LayersControl position="topright" >
 
@@ -76,6 +93,7 @@ export default function Mapa() {
                 format:'image/png',
                 transparent:true,
                 styles:'',
+                srsName:'EPSG:4326',
                 layers:'LuisDaniel:provincias',
                 minZoom:-50,
                 maxZoom:8,
@@ -93,6 +111,7 @@ export default function Mapa() {
                 format:'image/png',
                 transparent:true,
                 styles:'',
+                srsName:'EPSG:4326',
                 layers:'LuisDaniel:municipios',
                 minZoom:9,
                 maxZoom:12,
@@ -102,6 +121,13 @@ export default function Mapa() {
         </LayersControl>
 
       </MapContainer>
+      <button className="btn-specs" onClick={handleSpecs}><ArrowForwardIosIcon/></button>
+      <Specs
+        specs = {specs}
+        handleSpecs = {handleSpecs}
+        select = {select}
+        setSelect = {setSelect}
+      />
 
     </div>
   );

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import "../style/buscador.css";
 
-export default function Buscador() {
-  const [buscador, setBuscador] = useState("");
+export default function Buscador({buscador, setBuscador}) {
+  
 
   return (
     <div className="InputContainer">

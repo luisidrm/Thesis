@@ -124,7 +124,7 @@
 #nombre{
   width: 92%;
 }
-input {
+form input {
   margin-bottom: 3%;
   background-color: white;
   border: none;

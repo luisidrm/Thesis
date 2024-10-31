@@ -5,3 +5,34 @@
   /* overflow-y: hidden;
   overflow-x: hidden; */
 }
+.btn-specs{
+  width: 50px;
+  height: 70px;
+  z-index: 400;
+  position: fixed;
+  margin-top: -350px;
+  background-color: #212121;
+  font-size: 19px;
+  border: 0;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  cursor: pointer;
+}
+.btn-specs:hover{
+  background-color: gray;
+}
+.btn-specs:active{
+  background-color: rgb(48, 48, 48);
+}
+.leaflet-top{
+  margin-top: 77px;
+}
+.leaflet-control-zoom .leaflet-bar .leaflet-control{
+  margin: 0;
+}
+.leaflet-control-layers .leaflet-control{
+  margin-left: 0;
+}
+.leaflet-control-layers-base{
+  display: block;
+}

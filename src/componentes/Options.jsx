@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
@@ -7,8 +6,10 @@ import EditIcon from '@mui/icons-material/Edit';
 import Divider from '@mui/material/Divider';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import {SpeedDialIcon } from '@mui/material';
+import ImportContactsIcon from '@mui/icons-material/ImportContacts';
+import PersonIcon from '@mui/icons-material/Person';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
  
 const StyledMenu = styled((props) => (
   <Menu
@@ -53,8 +54,8 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-export default function Options() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+export default function Options({handleMostrar}) {
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -62,6 +63,21 @@ export default function Options() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const resultCuba = async() => {
+    // try{
+    //   const response = await fetch('http://mypage/cuba',{
+    //     method: 'POST',
+    //     body: JSON.parse({
+    //       name: "cuba",
+    //     })
+    //   })
+    //   console.log(response)
+      handleClose()
+      handleMostrar()
+    // }catch(error){
+    //   alert('Error al cargar los datos', error)
+    // }
+  }
 
   return (
     <div>
@@ -88,8 +104,12 @@ export default function Options() {
         onClose={handleClose}
       >
         <MenuItem onClick={handleClose} disableRipple disabled>
-          <SpeedDialIcon />
+          <PersonIcon />
           __username
+        </MenuItem>
+        <MenuItem onClick={resultCuba} disableRipple >
+          <ImportContactsIcon/>
+          Resultados Cuba
         </MenuItem>
         <MenuItem onClick={handleClose} disableRipple><Link to={'/escuela'}>
           <EditIcon />
