@@ -8,16 +8,23 @@ import Reportes from "../componentes/Reportes";
 import LocationMarker from "../componentes/LocationMarker";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Specs from "../componentes/Specs";
+import EventComponentReportes from "../componentes/EventComponentReportes";
 
 export const ReportesContext = createContext(null)
 
 export default function Mapa() {
+  const [municipioSeleccionado, setMunicipioSeleccionado] = useState("");
+  const [provinciaSeleccioanda, setProvSeleccionada] = useState("");
+  const [escuela, setEscuela] = useState("")
   const [specs, setSpecs] = useState(false)
   const [select, setSelect] = useState('')
+  const [selectParticipantes, setSelectParticipantes] = useState('')
   const [buscador, setBuscador] = useState("");
   const { BaseLayer, Overlay } = LayersControl;
 
   const handleSpecs = () =>{
+    const svg = document.querySelector('#svg')
+    svg.classList.toggle('rotado')
     setSpecs(!specs)
   }
   const cubaBounds = [
@@ -30,7 +37,6 @@ export default function Mapa() {
     setMostrar(!mostrar)
   }
 
-  
 
   return (
     <div>
@@ -47,16 +53,17 @@ export default function Mapa() {
 
         >
         <LocationMarker/>
+        <EventComponentReportes
+          setEscuela = {setEscuela}
+          setMunicipioSeleccionado = {setMunicipioSeleccionado}
+          setProvSeleccionada = {setProvSeleccionada}
+          handleMostrar = {handleMostrar}
+        />
         <NavBar handleMostrar={handleMostrar} />
         <Buscador
           buscador = {buscador}
           setBuscador = {setBuscador}
         />
-          <Reportes
-            mostrar = {mostrar}
-            handleMostrar = {handleMostrar}
-            setMostrar = {setMostrar}
-          />
         <ZoomControl position="topright"/>
         <LayersControl position="topright" >
 
@@ -113,20 +120,49 @@ export default function Mapa() {
                 styles:'',
                 srsName:'EPSG:4326',
                 layers:'LuisDaniel:municipios',
-                minZoom:9,
+                minZoom:8,
                 maxZoom:12,
+              }}
+            />
+          </Overlay>
+          <Overlay name="escuelas" checked>
+            <WMSTileLayer
+              url="http://localhost:8080/geoserver/LuisDaniel/wms"
+              params={{
+                service:'WMS',
+                version:'1.1.1',
+                request:'GetMap',
+                format:'image/png',
+                transparent:true,
+                styles:'',
+                srsName:'EPSG:4326',
+                layers:'LuisDaniel:escuelas_cuba',
+                minZoom:12
               }}
             />
           </Overlay>
         </LayersControl>
 
       </MapContainer>
-      <button className="btn-specs" onClick={handleSpecs}><ArrowForwardIosIcon/></button>
+      <button className="btn-specs" onClick={handleSpecs}><ArrowForwardIosIcon id="svg"/></button>
+      <Reportes
+        mostrar = {mostrar}
+        handleMostrar = {handleMostrar}
+        setMostrar = {setMostrar}
+        escuela = {escuela}
+        municipioSeleccionado = {municipioSeleccionado}
+        provinciaSeleccioanda = {provinciaSeleccioanda}
+        setEscuela = {setEscuela}
+        setMunicipioSeleccionado = {setMunicipioSeleccionado}
+        setProvSeleccionada = {setProvSeleccionada}
+      />
       <Specs
         specs = {specs}
         handleSpecs = {handleSpecs}
         select = {select}
         setSelect = {setSelect}
+        selectParticipantes = {selectParticipantes}
+        setSelectParticipantes = {setSelectParticipantes}
       />
 
     </div>

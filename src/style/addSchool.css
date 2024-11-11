@@ -150,6 +150,7 @@ input:focus {
   border: none;
   border-radius: 15px;
   outline: none;
+  cursor: pointer;
   
 }
 .btn-agregar{

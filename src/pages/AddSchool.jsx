@@ -2,23 +2,69 @@ import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
 import '../style/addSchool.css'
 import { useState } from "react";
 import FormAddSchool from "../componentes/FormAddSchool";
+import EventComponent from "../componentes/EventComponent";
 
 export default function AddSchool(){
-  // const [latitud, setLatitud] = useState(21.734)
-  // const [longitud, setLongitud] = useState(-79.783)
-  // const [nombre, setNombre] = useState('')
+  const [latitud, setLatitud] = useState(21.734)
+  const [longitud, setLongitud] = useState(-79.783)
+  const [nombre, setNombre] = useState('')
 
   const cubaBounds = [
     [18.0, -87.0], // Suroeste de Cuba
     [25.0, -74.0]  // Noreste de Cuba
-];
-  // useMapEvents({
+  ];
+
+  const handleSubmit = async (e) => { 
+    e.preventDefault(); 
+      const data = { 
+        type: "FeatureCollection", 
+        features: [ { 
+          type: "Feature", 
+            geometry: { 
+              type: "Point",
+               coordinates: [parseFloat(longitud), parseFloat(latitud)] 
+              }, 
+            properties: { 
+              name: nombre,
+              building : null,
+              addrcity: null,
+              addrfull: null,
+              operatorty: null,
+              amenity: null,
+              source: null,
+              capacitype: null
+            } 
+          } ] }; 
+          try { 
+            const response = await fetch('http://localhost:8080/geoserver/LuisDaniel/wfs',{ 
+              method: 'POST',
+              headers: {
+               'Content-Type': 'application/json',
+                'Accept': 'application/json' },
+              body: JSON.stringify({ 
+                service: 'WFS', 
+                version: '1.0.0', 
+                request: 'Transaction', 
+                transactionType: 'Insert', 
+                featureType: 'Escuela', // Asegúrate de cambiar esto al nombre de tu feature type  
+                feature: data 
+              }) 
+            });
+              if (response.ok) { 
+                console.log('Transacción exitosa');
+              } else { 
+                console.error('Error en la transacción:', response.statusText); 
+              } 
+          } catch (error) { console.error('Error de conexión:', error);}
+        };
+
+// useMapEvents({
   //   click: async(e)=>{
-  //     const {lat, lng} = e.latlng;
-  //     setLatitud(lat)
-  //     setLongitud(lng)
-  //   }
-  // })
+    //     const {lat, lng} = e.latlng;
+    //     setLatitud(lat)
+    //     setLongitud(lng)
+    //   }
+    // })
   // const sendData = async() =>{
   //   try{
   //     const response = await fetch('http://localhost:8000/escuela',{
@@ -62,7 +108,7 @@ export default function AddSchool(){
         <MapContainer
           zoom={7}
           center={[21.734,-80.5]}
-          style={{ height: "88vh", width: "100%" }}
+          style={{ height: "60vh", width: "100%" }}
           maxBounds={cubaBounds}
           maxBoundsViscosity={1.0}
           minZoom={6}
@@ -71,9 +117,22 @@ export default function AddSchool(){
         >
           <TileLayer 
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          minZoom={2} />
-          <FormAddSchool/>
+          minZoom={2} 
+          />
+          <EventComponent
+            setLatitud = {setLatitud}
+            setLongitud = {setLongitud}
+          />
           </MapContainer>
+        <FormAddSchool
+          nombre = {nombre}
+          latitud = {latitud}
+          longitud = {longitud}
+          setLatitud = {setLatitud}
+          setLongitud = {setLongitud}
+          setNombre = {setNombre}
+          handleSubmit = {handleSubmit}
+        />
       </div>
         {/* <form onSubmit={sendData} className="form-inputs">
           <div className="input-wrapper">

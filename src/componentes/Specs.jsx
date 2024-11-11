@@ -25,6 +25,10 @@ export default function Specs(props){
           <option value="zxc">Bebras 2023</option>
           <option value="qwe">Bebras 2022</option>
         </select>
+        <select className='select' name="" id="">
+          <option value="">Participantes</option>
+          <option value="">Medallas</option>
+        </select>
         <button className='btn-submit'>Ajustar</button>
       </form>
     </div>
