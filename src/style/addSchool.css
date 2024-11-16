@@ -117,14 +117,14 @@
   flex-direction: row;
   justify-content: space-between;
 }
-.latlng input{
+.latlng input, select{
   width: 30%;
   gap: 80px;
 }
 #nombre{
   width: 92%;
 }
-form input {
+form input{
   margin-bottom: 3%;
   background-color: white;
   border: none;
@@ -132,10 +132,10 @@ form input {
   font-size: 0.8rem;
   width: 100%;
   border-radius: 1rem;
-  color: #0066ff;
+  color: #ffffff;
   box-shadow: 0 0.4rem #dfd9d9;
 }
-input:focus {
+input:focus, select:focus {
   outline-color: #0066ff;
 }
 .btn-form{
@@ -146,7 +146,7 @@ input:focus {
 .btn-agregar, .btn-cancelar{
   text-align: center;
   margin-right: 2%;
-  padding: 2% 0;
+  padding: 1.5% 0;
   border: none;
   border-radius: 15px;
   outline: none;
@@ -184,7 +184,7 @@ input:focus {
   .btn-cancelar{
     width: 25%;
   }
-  .latlng input{
+  .latlng input, select{
     width: 50%;
   }
   .encabezado{

@@ -52,6 +52,11 @@
   cursor: pointer;
   transition-duration: 0.3s;
 }
+.enviar{
+  height: 100%;
+  padding: 0 20px;
+  font-size: large;
+}
 
 .searchIcon path {
   fill: rgb(114, 114, 114);

@@ -1,4 +1,5 @@
 import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
+import axios from 'axios'
 import '../style/addSchool.css'
 import { useState } from "react";
 import FormAddSchool from "../componentes/FormAddSchool";
@@ -8,6 +9,7 @@ export default function AddSchool(){
   const [latitud, setLatitud] = useState(21.734)
   const [longitud, setLongitud] = useState(-79.783)
   const [nombre, setNombre] = useState('')
+  const [categoria, setCategoria] = useState('')
 
   const cubaBounds = [
     [18.0, -87.0], // Suroeste de Cuba
@@ -16,39 +18,37 @@ export default function AddSchool(){
 
   const handleSubmit = async (e) => { 
     e.preventDefault(); 
-      const data = { 
-        type: "FeatureCollection", 
-        features: [ { 
-          type: "Feature", 
-            geometry: { 
-              type: "Point",
-               coordinates: [parseFloat(longitud), parseFloat(latitud)] 
-              }, 
-            properties: { 
-              name: nombre,
-              building : null,
-              addrcity: null,
-              addrfull: null,
-              operatorty: null,
-              amenity: null,
-              source: null,
-              capacitype: null
-            } 
-          } ] }; 
+    const xml = 
+    ` <wfs:Transaction service="WFS" version="1.0.0" 
+        xmlns:wfs="http://www.opengis.net/wfs" 
+        xmlns:gml="http://www.opengis.net/gml" 
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:schemaLocation="http://www.opengis.net/wfs 
+                            http://schemas.opengis.net/wfs/1.0.0/WFS-transaction.xsd"> 
+        <wfs:Insert> 
+          <feature:escuelas_cuba xmlns:feature="LuisDaniel"> 
+            <feature:geometry> 
+              <gml:Point srsName="EPSG:4326"> 
+                <gml:coordinates>${longitud},${latitud}</gml:coordinates> 
+              </gml:Point> 
+            </feature:geometry> 
+            <feature:name>${nombre}</feature:name> 
+          </feature:escuelas_cuba> 
+        </wfs:Insert> 
+      </wfs:Transaction> `;
           try { 
-            const response = await fetch('http://localhost:8080/geoserver/LuisDaniel/wfs',{ 
-              method: 'POST',
-              headers: {
-               'Content-Type': 'application/json',
-                'Accept': 'application/json' },
-              body: JSON.stringify({ 
+            const response = await axios.post('http://localhost:8080/geoserver/LuisDaniel/wfs', xml,{ 
+              params:{
                 service: 'WFS', 
                 version: '1.0.0', 
                 request: 'Transaction', 
                 transactionType: 'Insert', 
-                featureType: 'Escuela', // Asegúrate de cambiar esto al nombre de tu feature type  
-                feature: data 
-              }) 
+                featureType: 'escuelas_cuba', // Asegúrate de cambiar esto al nombre de tu feature type  
+              },
+              headers: {
+               'Content-Type': 'application/xml',
+                'Accept': 'application/xml' 
+              }
             });
               if (response.ok) { 
                 console.log('Transacción exitosa');
@@ -128,6 +128,8 @@ export default function AddSchool(){
           nombre = {nombre}
           latitud = {latitud}
           longitud = {longitud}
+          categoria={categoria}
+          setCategoria={setCategoria}
           setLatitud = {setLatitud}
           setLongitud = {setLongitud}
           setNombre = {setNombre}

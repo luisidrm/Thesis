@@ -1,6 +1,6 @@
 import NavBar from "../componentes/NavBar";
 import '../style/mapa.css'
-import { MapContainer, TileLayer, LayersControl, WMSTileLayer, ZoomControl } from "react-leaflet";
+import { MapContainer, TileLayer, LayersControl, WMSTileLayer, ZoomControl, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet";
 import Buscador from "../componentes/Buscador";
 import { createContext,  useState } from "react";
@@ -14,11 +14,12 @@ export const ReportesContext = createContext(null)
 
 export default function Mapa() {
   const [municipioSeleccionado, setMunicipioSeleccionado] = useState("");
-  const [provinciaSeleccioanda, setProvSeleccionada] = useState("");
+  const [provinciaSeleccionada, setProvSeleccionada] = useState("");
   const [escuela, setEscuela] = useState("")
+  const [location, setLocation] = useState(null)
   const [specs, setSpecs] = useState(false)
-  const [select, setSelect] = useState('')
-  const [selectParticipantes, setSelectParticipantes] = useState('')
+  const [select, setSelect] = useState('2024')
+  const [selectParticipantes, setSelectParticipantes] = useState('Participantes')
   const [buscador, setBuscador] = useState("");
   const { BaseLayer, Overlay } = LayersControl;
 
@@ -35,11 +36,29 @@ export default function Mapa() {
 
   const handleMostrar = () =>{
     setMostrar(!mostrar)
+    // if (mostrar === false){
+    //   setMunicipioSeleccionado("")
+    //   setEscuela("")
+    //   setProvSeleccionada()
+    // }
   }
-
+  const MapUpdater = ({ location }) => { 
+    const map = useMap();
+    if (location) { 
+      console.log('te la eche adentro')
+      map.setView([location.lat, location.lng], 10); // Cambia el nivel de zoom según sea necesario 
+      } 
+      return null; 
+  };
 
   return (
     <div>
+      <Buscador
+        buscador = {buscador}
+        setBuscador = {setBuscador}
+        location={location}
+        setLocation={setLocation}
+      />
       <MapContainer
         zoom={7}
         center={[21.734,-79.783]}
@@ -50,9 +69,11 @@ export default function Mapa() {
         zoomControl={false}
         attributionControl = {false}
         scrollWheelZoom = {true}
-
-        >
+      >
         <LocationMarker/>
+        <MapUpdater
+           location={location}
+        />
         <EventComponentReportes
           setEscuela = {setEscuela}
           setMunicipioSeleccionado = {setMunicipioSeleccionado}
@@ -60,10 +81,7 @@ export default function Mapa() {
           handleMostrar = {handleMostrar}
         />
         <NavBar handleMostrar={handleMostrar} />
-        <Buscador
-          buscador = {buscador}
-          setBuscador = {setBuscador}
-        />
+
         <ZoomControl position="topright"/>
         <LayersControl position="topright" >
 
@@ -103,7 +121,7 @@ export default function Mapa() {
                 srsName:'EPSG:4326',
                 layers:'LuisDaniel:provincias',
                 minZoom:-50,
-                maxZoom:8,
+                maxZoom:9,
               }}
             />
           </Overlay>
@@ -120,8 +138,8 @@ export default function Mapa() {
                 styles:'',
                 srsName:'EPSG:4326',
                 layers:'LuisDaniel:municipios',
-                minZoom:8,
-                maxZoom:12,
+                minZoom:9,
+                maxZoom:13,
               }}
             />
           </Overlay>
@@ -137,7 +155,7 @@ export default function Mapa() {
                 styles:'',
                 srsName:'EPSG:4326',
                 layers:'LuisDaniel:escuelas_cuba',
-                minZoom:12
+                minZoom:13
               }}
             />
           </Overlay>
@@ -151,7 +169,7 @@ export default function Mapa() {
         setMostrar = {setMostrar}
         escuela = {escuela}
         municipioSeleccionado = {municipioSeleccionado}
-        provinciaSeleccioanda = {provinciaSeleccioanda}
+        provinciaSeleccionada = {provinciaSeleccionada}
         setEscuela = {setEscuela}
         setMunicipioSeleccionado = {setMunicipioSeleccionado}
         setProvSeleccionada = {setProvSeleccionada}
@@ -169,34 +187,3 @@ export default function Mapa() {
   );
 }
 
-// BBOX=-82.47486299747875,20.318137793479906,-75.3169135362895,23.39381920258466
-// bbox=-9079495.967826378,2191602.474992575,-8766409.899970295,2504688.542848655
-//         {/* <TileLayer
-//         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-//       />
-//       <WMSTileLayer
-//         url="http://localhost:8080/geoserver/GeoPortal/wms?request=GetMap"
-//         layers="GeoPortal:test1" // Reemplaza con tu workspace y nombre de capa
-//         format="image/png"
-//         transparent={false}
-//       /> */}
-//   // const [provincias, setProvincias] = useState([]);
-//   // const [municipios, setMunicipios] = useState([]);
-
-//   // useEffect(()=>{
-//   //   fetch("http://localhost:8000/geo",{method:"GET"})
-//   //   .then((response) => response.json())
-//   //   .then((data) => {
-//   //     let p = Array.from(data.provincia);
-//   //     let m = Array.from(data.municipio);
-//   //     setProvincias(p);
-//   //     setMunicipios(m);
-//   //     console.log(JSON.stringify(data));
-//   //   })
-//   //   .catch((error) => {
-//   //     console.error("Error al obtener datos:", error);
-//   //   })
-//   // },[])
-//   // console.log(provincias)
-//   // console.log(municipios)
-//   // var baseLayer = L.tileLayer("")

@@ -19,94 +19,49 @@ import {
 import resultado from "../../resultados.json";
 
 export default function Reportes(props) {
-  // const [municipioSeleccionado, setMunicipioSeleccionado] = useState("");
-  // const [provinciaSeleccioanda, setProvSeleccionada] = useState("");
-  // const [escuela, setEscuela] = useState("")
   const [resultados, setResultados] = useState(resultado);
 
   useEffect(() => {
+    const fetchData = async()=>{
+      try{
+        const response = await fetch('http://pagina_de_rui:8000/api/controlador',{
+          method: 'POST',
+          body: JSON.parse({
+            escuela: props.escuela,
+            municipio: props.municipioSeleccionado,
+            provincia: props.provinciaSeleccioanda
+          })
+        })
+        const result = await response.json()
+      }catch(error){
+        console.error('Error', error)
+      }
+    }
+    fetchData
     setResultados(resultado);
   }, []);
 
-  // const map = useMapEvents({
-  //   click: async (e) => {
-  //     const { lat, lng } = e.latlng;
-  //     const zoom = map.getZoom()
-  //     const response = await axios.get(
-  //       "http://localhost:8080/geoserver/LuisDaniel/wfs",
-  //       {
-  //         params: {
-  //           service: "WFS",
-  //           version: "1.1.0",
-  //           request: "GetFeature",
-  //           typeName: "LuisDaniel:municipios",
-  //           outputFormat: "application/json",
-  //           srsname: "EPSG:4326",
-  //           cql_filter:`INTERSECTS(geom, POINT(${lat} ${lng}))`,
-  //           // bbox: `${lng},${lat},${lng},${lat},EPSG:4326`,
-  //         },
-  //       }      
-  //     );
-  //     const responseProv = await axios.get(
-  //       "http://localhost:8080/geoserver/LuisDaniel/wfs",
-  //       {
-  //         params: {
-  //           service: "WFS",
-  //           version: "1.1.0",
-  //           request: "GetFeature",
-  //           typeName: "LuisDaniel:provincias",
-  //           outputFormat: "application/json",
-  //           srsname: "EPSG:4326",
-  //           cql_filter:`INTERSECTS(geom, POINT(${lat} ${lng}))`,
-  //           // bbox: `${lng},${lat},${lng+0.04},${lat+0.04},EPSG:4326`,
-  //         },
-  //       }
-  //     );
-  //     const responseEsc = await axios.get(
-  //       "http://localhost:8080/geoserver/LuisDaniel/wfs",
-  //       {
-  //         params: {
-  //           service: "WFS",
-  //           version: "1.1.0",
-  //           request: "GetFeature",
-  //           typeName: "LuisDaniel:escuelas_cuba",
-  //           outputFormat: "application/json",
-  //           srsname: "EPSG:4326",
-  //           bbox: `${lng},${lat},${lng+0.04},${lat+0.04},EPSG:4326`,
-  //         },
-  //       }
-  //     );
-  //     const features = response.data.features;
-  //     const featuresProv = responseProv.data.features;
-  //     const featuresEsc = responseEsc.data.features;
-  //     if (features.length > 0) {
-  //       console.log(featuresEsc)
-  //       if (featuresEsc.length > 0) {
-  //         setEscuela(featuresEsc[0].properties.name)
-  //       }else{
-  //         setEscuela("")
-  //       }
-  //       setMunicipioSeleccionado(features[0].properties.municipio);
-  //       setProvSeleccionada(featuresProv[0].properties.provincia);
-  //       console.log('Te la eche adentro')
-  //       props.handleMostrar();
-  //     }
-  //     // document.getElementsByClassName('reportes').focus()
-  //   },
-  // });
+  const cierre =()=>{
+    props.handleMostrar()
+    props.setEscuela("");
+    props.setMunicipioSeleccionado("");
+    props.setProvinciaSeleccionada("");
+  }
+
   return (
     <div className={props.mostrar ? "reportes" : "oculto"}>
       <div className="scroll">
-        <button className="button-scroll" onClick={props.handleMostrar}>
+        <button className="button-scroll" onClick={cierre}>
           <ExpandMoreIcon />
         </button>
         <h1>Resultados de Bebras</h1>
       </div>
       <div className="data-completa">
         <div className="data">
+          <h2>Localización:</h2>
           <h2>{props.escuela}</h2>
           <h2>{props.municipioSeleccionado}</h2>
-          <h2>{props.provinciaSeleccioanda}</h2>
+          <h2>{props.provinciaSeleccionada}</h2>
 
         </div>
         <div className="graficos">

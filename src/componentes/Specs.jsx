@@ -12,7 +12,7 @@ export default function Specs(props){
   //   }
   //   fetchData()
   // },[])
-  console.log(props.select)
+
 
   return(
     <div className={props.specs ? 'card': 'hiddenCard'}>
@@ -21,15 +21,15 @@ export default function Specs(props){
       </div>
       <form>
         <select className='select' name="" id="" onChange={(e)=>props.setSelect(e.target.value)}>
-          <option value="asd">Bebras 2024</option>
-          <option value="zxc">Bebras 2023</option>
-          <option value="qwe">Bebras 2022</option>
+          <option value="2024">Bebras 2024</option>
+          <option value="2023">Bebras 2023</option>
+          <option value="2022">Bebras 2022</option>
         </select>
-        <select className='select' name="" id="">
-          <option value="">Participantes</option>
-          <option value="">Medallas</option>
+        <select className='select' name="" id="" onChange={(e)=>props.setSelectParticipantes(e.target.value)}>
+          <option value="Participantes">Participantes</option>
+          <option value="Medallistas">Medallistas</option>
         </select>
-        <button className='btn-submit'>Ajustar</button>
+        <button type='button' className='btn-submit' onClick={props.handleSpecs}>Ajustar</button>
       </form>
     </div>
   )
